@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { orderServices } from "./order.services";
+import { object, ZodError } from "zod";
 
 const createOrder = async (req: Request, res: Response) => {
   try {
@@ -11,29 +12,32 @@ const createOrder = async (req: Request, res: Response) => {
       data: order,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Something went wrong while fetching Product data",
-      data: error,
-    });
+    error instanceof ZodError &&
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong while ordering this product",
+        data: error,
+        stack: error.stack,
+      });
   }
 };
 
 const getRevenue = async (req: Request, res: Response) => {
   try {
     const totalRevenue = await orderServices.getRevenue();
-    console.log(totalRevenue);
     res.status(200).json({
       success: true,
       message: "Total revenue has been found",
       data: totalRevenue,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "There was an error fetching total revenue",
-      data: error,
-    });
+    error instanceof ZodError &&
+      res.status(500).json({
+        success: false,
+        message: "There was an error fetching total revenue",
+        data: error,
+        stack: error.stack,
+      });
   }
 };
 
