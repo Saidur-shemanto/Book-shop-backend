@@ -11,12 +11,23 @@ const orderSchema = new Schema<IOrder>({
 });
 
 orderSchema.pre("save", async function () {
+  console.log(this.product, Object(this.product));
   const orderedBook = await productServices.getAProduct(this.product);
-  orderedBook &&
-    (await Product.updateOne(
-      { _id: orderedBook._id },
-      { quantity: orderedBook.quantity - this.quantity }
-    ));
+  console.log(orderedBook);
+  if (!orderedBook) {
+    throw new Error("Order not found");
+  }
+
+  if (orderedBook.quantity < this.quantity) {
+    throw new Error("Insufficient stock for the requested quantity");
+  }
+
+  await productServices.editAProduct(
+    orderedBook._id.toString(),
+    orderedBook.quantity - this.quantity === 0
+      ? { inStock: false, quantity: 0 }
+      : { quantity: orderedBook.quantity - this.quantity }
+  );
 });
 
 export const Order = model<IOrder>("Order", orderSchema);

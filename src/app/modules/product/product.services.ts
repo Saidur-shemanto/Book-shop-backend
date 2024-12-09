@@ -16,6 +16,9 @@ const getAllProducts = async (searchParam: string) => {
 
 const getAProduct = async (id: string) => {
   const result = await Product.findOne({ _id: id });
+  if (result === null) {
+    throw new Error("Product not found");
+  }
   return result;
 };
 

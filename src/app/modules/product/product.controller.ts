@@ -11,14 +11,13 @@ const getAllProducts = async (req: Request, res: Response) => {
       message: "Books are found succesfully",
       data: products,
     });
-  } catch (error) {
-    error instanceof ZodError &&
-      res.status(500).json({
-        success: false,
-        message: "Something went wrong while fetching Product data",
-        data: error,
-        stack: error.stack,
-      });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching Product data",
+      data: error,
+      stack: error.stack,
+    });
   }
 };
 
@@ -31,14 +30,13 @@ const getSingleProduct = async (req: Request, res: Response) => {
       message: "Book has been retrieved successfully",
       data: product,
     });
-  } catch (error) {
-    error instanceof ZodError &&
-      res.status(500).json({
-        success: false,
-        message: "Something went wrong while fetching this product",
-        data: error,
-        stack: error.stack,
-      });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      data: error,
+      stack: error.stack,
+    });
   }
 };
 
@@ -55,14 +53,13 @@ const createProduct = async (req: Request, res: Response) => {
       message: "Book has been created successfully",
       data: result,
     });
-  } catch (error) {
-    error instanceof ZodError &&
-      res.status(500).json({
-        success: false,
-        message: "Something went wrong while creating Product data",
-        data: error,
-        stack: error.stack,
-      });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong while creating Product data",
+      data: error,
+      stack: error.stack,
+    });
   }
 };
 const deleteAProduct = async (req: Request, res: Response) => {
@@ -75,14 +72,13 @@ const deleteAProduct = async (req: Request, res: Response) => {
       message: "Book has been deleted successfully",
       data: product,
     });
-  } catch (error) {
-    error instanceof ZodError &&
-      res.status(500).json({
-        success: false,
-        message: "Something went wrong while deleting this product",
-        data: error,
-        stack: error.stack,
-      });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong while deleting this product",
+      data: error,
+      stack: error.stack,
+    });
   }
 };
 const editAProduct = async (req: Request, res: Response) => {
@@ -97,14 +93,13 @@ const editAProduct = async (req: Request, res: Response) => {
       message: "Book has been edited successfully",
       data: product,
     });
-  } catch (error) {
-    error instanceof ZodError &&
-      res.status(500).json({
-        success: false,
-        message: "Something went wrong while editing Product data",
-        data: error,
-        stack: error.stack,
-      });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong while editing Product data",
+      data: error,
+      stack: error.stack,
+    });
   }
 };
 

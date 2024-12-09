@@ -9,6 +9,7 @@ const createOrder = async (order: IOrder) => {
 const getRevenue = async () => {
   const result = await Order.aggregate([
     { $group: { _id: null, totalPrice: { $sum: "$productPrice" } } },
+    { $project: { _id: 0, totalPrice: 1 } },
   ]);
   return result;
 };

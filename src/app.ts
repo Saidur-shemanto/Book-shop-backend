@@ -10,6 +10,6 @@ app.use(express.json());
 app.use(express.text());
 
 app.use("/api/products", productRoutes);
-app.use("/api/order", orderRouter);
+app.use("/api/orders", orderRouter);
 
 export default app;

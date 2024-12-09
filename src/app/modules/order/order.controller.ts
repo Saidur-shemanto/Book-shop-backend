@@ -11,14 +11,13 @@ const createOrder = async (req: Request, res: Response) => {
       message: "Order has been placed successfully",
       data: order,
     });
-  } catch (error) {
-    error instanceof ZodError &&
-      res.status(500).json({
-        success: false,
-        message: "Something went wrong while ordering this product",
-        data: error,
-        stack: error.stack,
-      });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: `Invalid Order:  ${error.message}`,
+      data: error,
+      stack: error.stack,
+    });
   }
 };
 
@@ -30,14 +29,13 @@ const getRevenue = async (req: Request, res: Response) => {
       message: "Total revenue has been found",
       data: totalRevenue,
     });
-  } catch (error) {
-    error instanceof ZodError &&
-      res.status(500).json({
-        success: false,
-        message: "There was an error fetching total revenue",
-        data: error,
-        stack: error.stack,
-      });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: "There was an error fetching total revenue",
+      data: error,
+      stack: error.stack,
+    });
   }
 };
 
